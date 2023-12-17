@@ -1,3 +1,57 @@
-import {createIconSetFromIcoMoon} from 'react-native-vector-icons';
-import icoMoonConfig from '../../selection.json';
-export default createIconSetFromIcoMoon(icoMoonConfig);
+import { View } from 'react-native'
+import React from 'react'
+import {
+  Feather,
+  AntDesign,
+  Entypo,
+  Ionicons,
+  Fontisto,
+  FontAwesome,
+  FontAwesome5,
+  MaterialCommunityIcons,
+  MaterialIcons,
+  EvilIcons
+} from '@expo/vector-icons'
+
+const VectorIcon = props => {
+  const { name, size, color, type, onPress, style } = props
+  return (
+    <View style={style}>
+      {type === 'MaterialCommunityIcons' ? (
+        <MaterialCommunityIcons
+          onPress={onPress}
+          name={name}
+          size={size}
+          color={color}
+        />
+      ) : type === 'FontAwesome' ? (
+        <FontAwesome onPress={onPress} name={name} size={size} color={color} />
+      ) : type === 'FontAwesome5' ? (
+        <FontAwesome5 onPress={onPress} name={name} size={size} color={color} />
+      ) : type === 'Feather' ? (
+        <Feather onPress={onPress} name={name} size={size} color={color} />
+      ) : type === 'AntDesign' ? (
+        <AntDesign onPress={onPress} name={name} size={size} color={color} />
+      ) : type === 'Entypo' ? (
+        <Entypo onPress={onPress} name={name} size={size} color={color} />
+      ) : type === 'Ionicons' ? (
+        <Ionicons onPress={onPress} name={name} size={size} color={color} />
+      ) : type === 'EvilIcons' ? (
+        <EvilIcons onPress={onPress} name={name} size={size} color={color} />
+      ) : type === 'Octicons' ? (
+        <Octicons onPress={onPress} name={name} size={size} color={color} />
+      ) : type === 'Fontisto' ? (
+        <Fontisto onPress={onPress} name={name} size={size} color={color} />
+      ) : (
+        <MaterialIcons
+          onPress={onPress}
+          name={name}
+          size={size}
+          color={color}
+        />
+      )}
+    </View>
+  )
+}
+
+export default VectorIcon
