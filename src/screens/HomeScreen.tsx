@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import {
   View,
   Text,
@@ -7,7 +7,8 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
-  TextInput
+  TextInput,
+  FlatList
 } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useStore } from '../store/store'
@@ -21,7 +22,8 @@ import {
 } from '../theme/theme'
 import HeaderBar from '../components/HeaderBar'
 import VectorIcon from '../components/CustomIcon';
-
+import CoffeeCard from '../components/CoffeeCard'
+import {NavigationProp} from '@react-navigation/native'
 const getCategoriesFromData = (data: any) => {
   let temp: any = {}
   for (let i = 0; i < data.length; i++) {
@@ -45,7 +47,7 @@ const getCoffeeList = (category: string, data: any) => {
   }
 }
 
-export default function HomeScreen () {
+export default function HomeScreen ({navigation}:{navigation:NavigationProp}) {
   const CoffeeList = useStore((state: any) => state.CoffeeList)
   const BeanList = useStore((state: any) => state.BeanList)
   const addToCart = useStore((state: any) => state.addToCart)
@@ -53,6 +55,7 @@ export default function HomeScreen () {
   const [categories, setCategories] = useState(
     getCategoriesFromData(CoffeeList),
   );
+  const ListRef: any = useRef<FlatList>();
   const [searchText, setSearchText] = useState('')
   const [categoryIndex, setCategoryIndex] = useState({
     index: 0,
@@ -161,10 +164,10 @@ export default function HomeScreen () {
               <TouchableOpacity
                 style={styles.CategoryScrollViewItem}
                 onPress={() => {
-                  // ListRef?.current?.scrollToOffset({
-                  //   animated: true,
-                  //   offset: 0,
-                  // });
+                  ListRef?.current?.scrollToOffset({
+                    animated: true,
+                    offset: 0,
+                  });
                   setCategoryIndex({index: index, category: categories[index]});
                   setSortedCoffee([
                     ...getCoffeeList(categories[index], CoffeeList),
@@ -188,6 +191,89 @@ export default function HomeScreen () {
             </View>
           ))}
         </ScrollView>
+
+        {/* Coffee Flatlist */}
+
+        <FlatList
+          ref={ListRef}
+          horizontal
+          ListEmptyComponent={
+            <View style={styles.EmptyListContainer}>
+              <Text style={styles.CategoryText}>No Coffee Available</Text>
+            </View>
+          }
+          showsHorizontalScrollIndicator={false}
+          data={sortedCoffee}
+          contentContainerStyle={styles.FlatListContainer}
+          keyExtractor={item => item.id}
+          renderItem={({item}) => {
+            return (
+              <TouchableOpacity
+                onPress={() => {
+                  // navigation.push('Details', {
+                  //   index: item.index,
+                  //   id: item.id,
+                  //   type: item.type,
+                  // });
+                }}>
+                <CoffeeCard
+                  id={item.id}
+                  index={item.index}
+                  type={item.type}
+                  roasted={item.roasted}
+                  imagelink_square={item.imagelink_square}
+                  name={item.name}
+                  special_ingredient={item.special_ingredient}
+                  average_rating={item.average_rating}
+                  price={item.prices[2]}
+                  buttonPressHandler={() => {}}
+                />
+              </TouchableOpacity>
+            );
+          }}
+        />
+
+
+<Text style={styles.CoffeeBeansTitle}>Coffee Beans</Text>
+
+
+         {/* Beans Flatlist */}
+
+         <FlatList
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          data={BeanList}
+          contentContainerStyle={[
+            styles.FlatListContainer,
+            {marginBottom: tabBarHeight},
+          ]}
+          keyExtractor={item => item.id}
+          renderItem={({item}) => {
+            return (
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.push('Details', {
+                    index: item.index,
+                    id: item.id,
+                    type: item.type,
+                  });
+                }}>
+                <CoffeeCard
+                  id={item.id}
+                  index={item.index}
+                  type={item.type}
+                  roasted={item.roasted}
+                  imagelink_square={item.imagelink_square}
+                  name={item.name}
+                  special_ingredient={item.special_ingredient}
+                  average_rating={item.average_rating}
+                  price={item.prices[2]}
+                  buttonPressHandler={() => {}}
+                />
+              </TouchableOpacity>
+            );
+          }}
+        />
 
 
       </ScrollView>
