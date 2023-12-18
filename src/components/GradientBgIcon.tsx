@@ -10,9 +10,10 @@ interface GradientBGIconProps {
   name: string;
   color: string;
   size: number;
+  type: string
 }
 
-const GradientBGIcon: React.FC<GradientBGIconProps> = ({name, color, size}) => {
+const GradientBGIcon: React.FC<GradientBGIconProps> = ({name, color, size,type}) => {
   return (
     <View style={styles.Container}>
       <LinearGradient

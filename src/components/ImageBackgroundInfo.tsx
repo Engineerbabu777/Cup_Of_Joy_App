@@ -158,6 +158,7 @@ const ImageBackgroundInfo: React.FC<ImageBackgroundInfoProps> = ({
               </View>
             </View>
           </View>
+
         </View>
       </ImageBackground>
     </View>
@@ -174,7 +175,8 @@ const styles = StyleSheet.create({
     padding: SPACING.space_30,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    marginTop:20,
   },
   ImageHeaderBarContainerWithoutBack: {
     padding: SPACING.space_30,

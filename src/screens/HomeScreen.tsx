@@ -8,7 +8,9 @@ import {
   ScrollView,
   TouchableOpacity,
   TextInput,
-  FlatList
+  FlatList,
+  ToastAndroid,
+  Alert
 } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useStore } from '../store/store'
@@ -90,6 +92,35 @@ export default function HomeScreen ({navigation}:{navigation:NavigationProp}) {
     setSortedCoffee([...CoffeeList]);
     setSearchText('');
   };
+
+  const CoffeCardAddToCart = ({
+    id,
+    index,
+    name,
+    roasted,
+    imagelink_square,
+    special_ingredient,
+    type,
+    prices,
+  }: any) => {
+    addToCart({
+      id,
+      index,
+      name,
+      roasted,
+      imagelink_square,
+      special_ingredient,
+      type,
+      prices,
+    });
+    calculateCartPrice();
+    ToastAndroid.showWithGravity(
+      `${name} is Added to Cart`,
+      ToastAndroid.SHORT,
+      ToastAndroid.CENTER,
+    );
+  };
+
 
   return (
     <View style={styles.ScreenContainer}>
@@ -210,11 +241,11 @@ export default function HomeScreen ({navigation}:{navigation:NavigationProp}) {
             return (
               <TouchableOpacity
                 onPress={() => {
-                  // navigation.push('Details', {
-                  //   index: item.index,
-                  //   id: item.id,
-                  //   type: item.type,
-                  // });
+                  navigation.push('Details', {
+                    index: item.index,
+                    id: item.id,
+                    type: item.type,
+                  });
                 }}>
                 <CoffeeCard
                   id={item.id}
@@ -226,7 +257,16 @@ export default function HomeScreen ({navigation}:{navigation:NavigationProp}) {
                   special_ingredient={item.special_ingredient}
                   average_rating={item.average_rating}
                   price={item.prices[2]}
-                  buttonPressHandler={() => {}}
+                  buttonPressHandler={() => {CoffeCardAddToCart({
+                    index:item.index,
+                    id:item.id,
+                    type:item.type,
+                    roasted:item.roasted,
+                    imageLink:item.imageLink,
+                    name:item.name,
+                    specialIngredient:item.specialIngredient,
+                    prices:[{...item.price,quantity:1}]
+                  })}}
                 />
               </TouchableOpacity>
             );
