@@ -5,6 +5,7 @@ import { NavigationContainer } from '@react-navigation/native'
 import HomeScreen from './src/screens/HomeScreen'
 import Tabs from './src/navigators/TabNavigator'
 import DetailsScreen from './src/screens/DetailsScreen'
+import PaymentScreen from './src/screens/PaymentScreen'
 
 const Stack = createNativeStackNavigator()
 
@@ -21,6 +22,11 @@ export default function App () {
         <Stack.Screen
           name='Details'
           component={DetailsScreen}
+          options={{ animation: 'slide_from_bottom' }}
+        />
+          <Stack.Screen
+          name='Payment'
+          component={PaymentScreen}
           options={{ animation: 'slide_from_bottom' }}
         />
       </Stack.Navigator>

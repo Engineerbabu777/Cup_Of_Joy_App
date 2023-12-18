@@ -10,6 +10,7 @@ import { COLORS, SPACING } from '../theme/theme';
 import HeaderBar from '../components/HeaderBar';
 import PaymentFooter from '../components/PaymentFooter';
 import CartItem from '../components/CartItem';
+import EmptyListAnimation from '../components/EmptyListAnimation';
 
 const CartScreen = ({navigation,route}:any) => {
 
@@ -50,8 +51,11 @@ const CartScreen = ({navigation,route}:any) => {
         <View style={styles.ItemContainer}>
           <HeaderBar title="Cart" />
 
-          {CartList.length == 0 ? (<Text>empty</Text>
-            // <EmptyListAnimation title={'Cart is Empty'} />
+          {CartList.length == 0 ? (<>
+            <Text>Empty!</Text>
+            {/* <EmptyListAnimation title={'Cart is Empty'} /> */}
+          
+          </>
           ) : (
             <View style={styles.ListItemContainer}>
               {CartList.map((data: any) => (
